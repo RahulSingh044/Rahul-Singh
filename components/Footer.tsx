@@ -82,6 +82,7 @@ const Footer = () => {
     { title: "Tools" },
     { title: "Projects", link: "/projects" },
     { title: "Contact" },
+    { title: "Works" },
   ];
 
   const handleRedirect = (item: LinkItem) => {

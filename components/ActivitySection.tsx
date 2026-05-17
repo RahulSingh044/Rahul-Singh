@@ -47,7 +47,7 @@ const ActivityTracker = ({ githubUser }: { githubUser: string }) => {
   // }
 
   return (
-    <section className="bg-[#f2f0ea] py-20 px-96">
+    <section className="bg-[#f2f0ea] pt-16 px-96">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <motion.div

@@ -10,7 +10,7 @@ const ProjectSection = () => {
   const router = useRouter();
 
   return (
-    <div className="min-w-screen md:px-96">
+    <div className="min-w-screen md:px-96 mb-10">
       <div className="flex justify-between items-end">
         {/* Left */}
         <h1 className="md:text-7xl font-bold tracking-tight text-[#0a0a0a] mb-4">
