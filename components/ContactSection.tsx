@@ -1,11 +1,11 @@
 "use client";
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const DURATION = 0.3;
 const STAGGER = 0.025;
 
-// 1. Sub-component for the rolling icon animation
+// Sub-component for the rolling icon animation
 const AnimatedSocialIcon = ({ path, link }: { path: string; link: string }) => {
   const redirect = () => window.open(link, "_blank");
 
@@ -14,7 +14,7 @@ const AnimatedSocialIcon = ({ path, link }: { path: string; link: string }) => {
       onClick={redirect}
       initial="initial"
       whileHover="hover"
-      className="w-12 h-12 bg-gray-200/60 rounded-xl flex items-center justify-center cursor-pointer overflow-hidden relative"
+      className="w-12 h-12 bg-gray-200/60 rounded-xl flex items-center justify-center cursor-pointer overflow-hidden relative border border-black/5 shadow-sm"
     >
       <div className="relative h-5 w-5 overflow-hidden">
         {/* Top Icon: center -> top */}
@@ -47,19 +47,18 @@ const AnimatedSocialIcon = ({ path, link }: { path: string; link: string }) => {
   );
 };
 
+// Character-by-character rolling text animation component
 const AnimatedText = ({ title }: { title: string }) => {
   return (
-    <motion.button
+    <motion.div
       initial="initial"
       whileHover="hover"
       className="relative block overflow-hidden whitespace-nowrap text-black text-xl cursor-pointer font-medium"
-      style={{
-        lineHeight: 1,
-      }}
+      style={{ lineHeight: 1 }}
     >
       <div className="relative">
         {/* First Set: Moves from center to top */}
-        <div className="flex">
+        <div className="flex justify-center items-center">
           {title.split("").map((l, i) => (
             <motion.span
               variants={{
@@ -80,7 +79,7 @@ const AnimatedText = ({ title }: { title: string }) => {
         </div>
 
         {/* Second Set: Moves from bottom to center */}
-        <div className="absolute inset-0 flex">
+        <div className="absolute inset-0 flex justify-center items-center">
           {title.split("").map((l, i) => (
             <motion.span
               variants={{
@@ -100,11 +99,23 @@ const AnimatedText = ({ title }: { title: string }) => {
           ))}
         </div>
       </div>
-    </motion.button>
+    </motion.div>
   );
 };
 
 const ContactSection = () => {
+  // Form Functional State
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    project: "",
+  });
+  const [errors, setErrors] = useState({ name: "", email: "", project: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
+
   const socials = [
     {
       id: "linkedin",
@@ -118,9 +129,66 @@ const ContactSection = () => {
     },
   ];
 
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name as keyof typeof errors]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const validateForm = () => {
+    let valid = true;
+    const tempErrors = { name: "", email: "", project: "" };
+
+    if (!formData.name.trim()) {
+      tempErrors.name = "Name is required.";
+      valid = false;
+    }
+    if (!formData.email.trim()) {
+      tempErrors.email = "Email is required.";
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      tempErrors.email = "Please enter a valid email address.";
+      valid = false;
+    }
+    if (!formData.project.trim()) {
+      tempErrors.project = "Project summary is required.";
+      valid = false;
+    }
+
+    setErrors(tempErrors);
+    return valid;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!data.success) setSubmitStatus("error");
+      setSubmitStatus("success");
+      setFormData({ name: "", email: "", project: "" });
+    } catch (err) {
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="relative bg-[#f3f0e9] min-h-screen flex items-center justify-center py-20 px-96 overflow-hidden font-sans">
-      {/* 2. SVG Grain Filter */}
+      {/* SVG Grain Filter Definition */}
       <svg className="absolute inset-0 w-0 h-0 pointer-events-none">
         <filter id="bg-grain">
           <feTurbulence
@@ -142,24 +210,23 @@ const ContactSection = () => {
       {/* Grain Overlay */}
       <div
         id="contact"
-        className="absolute inset-0 pointer-events-none opacity-40"
+        className="absolute inset-0 pointer-events-none opacity-40 z-0"
         style={{ filter: "url(#bg-grain)" }}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start relative z-10 max-w-7xl w-full">
-        {/* Left Side: Text & Socials */}
-        <div className="flex flex-col h-full justify-between pt-10">
+        {/* Left Side: Text Content & Social Links */}
+        <div className="flex flex-col h-full justify-between">
           <div>
             <h1 className="text-7xl md:text-8xl font-bold tracking-tighter text-[#0a0a0a] mb-4">
               Let’s talk.
             </h1>
-            <p className="text-lg md:text-xl text-gray-700 font-medium max-w-md">
+            <p className="text-lg md:text-xl text-gray-700 font-medium max-w-md leading-relaxed">
               Have a project or need help? Fill out the form, and we'll get back
               to you soon.
             </p>
           </div>
 
-          {/* Corrected Mapping for Social Icons */}
           <div className="flex gap-4 mt-12">
             {socials.map((social) => (
               <AnimatedSocialIcon
@@ -171,43 +238,179 @@ const ContactSection = () => {
           </div>
         </div>
 
-        {/* Right Side: Dark Form Card */}
-        <div className="bg-[#0a0a0a] p-8 md:p-10 rounded-[2rem] shadow-2xl w-full border border-white/5">
-          <form className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-gray-400 text-sm font-medium">Name</label>
-              <input
-                type="text"
-                placeholder="Enter your name"
-                className="w-full bg-[#141414] border border-white/10 rounded-xl p-4 text-white placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-white/20 transition-all"
-              />
-            </div>
+        {/* Right Side: Dark Form Panel Widget Wrapper */}
+        <div className="bg-[#0a0a0a] p-8 md:p-10 rounded-[2rem] shadow-2xl w-full border border-white/5 relative min-h-[500px] flex flex-col justify-center">
+          <AnimatePresence mode="wait">
+            {submitStatus === "success" ? (
+              <motion.div
+                key="success-message"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="text-center space-y-4"
+              >
+                <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto border border-green-500/30">
+                  <svg
+                    className="w-8 h-8 text-green-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold text-white tracking-tight">
+                  Message Received
+                </h3>
+                <p className="text-gray-400 max-w-xs mx-auto text-sm">
+                  Thanks for reaching out! I'll review your project details and
+                  get back to you shortly.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSubmitStatus("idle")}
+                  className="text-xs text-gray-500 underline hover:text-white transition-colors pt-4"
+                >
+                  Send another message
+                </button>
+              </motion.div>
+            ) : (
+              <motion.form
+                key="contact-form"
+                onSubmit={handleSubmit}
+                className="space-y-5"
+                layout
+              >
+                {/* Field: Name */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between items-center">
+                    <label className="text-gray-400 text-sm font-medium">
+                      Name
+                    </label>
+                    {errors.name && (
+                      <span className="text-red-400 text-xs">
+                        {errors.name}
+                      </span>
+                    )}
+                  </div>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    disabled={isSubmitting}
+                    placeholder="Enter your name"
+                    className={`w-full bg-[#141414] border rounded-xl p-4 text-white placeholder:text-gray-600 focus:outline-none focus:ring-1 transition-all ${
+                      errors.name
+                        ? "border-red-500/50 focus:ring-red-500/30"
+                        : "border-white/10 focus:ring-white/20"
+                    }`}
+                  />
+                </div>
 
-            <div className="space-y-2">
-              <label className="text-gray-400 text-sm font-medium">Email</label>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full bg-[#141414] border border-white/10 rounded-xl p-4 text-white placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-white/20 transition-all"
-              />
-            </div>
+                {/* Field: Email */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between items-center">
+                    <label className="text-gray-400 text-sm font-medium">
+                      Email
+                    </label>
+                    {errors.email && (
+                      <span className="text-red-400 text-xs">
+                        {errors.email}
+                      </span>
+                    )}
+                  </div>
+                  <input
+                    type="text"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    disabled={isSubmitting}
+                    placeholder="Enter your email"
+                    className={`w-full bg-[#141414] border rounded-xl p-4 text-white placeholder:text-gray-600 focus:outline-none focus:ring-1 transition-all ${
+                      errors.email
+                        ? "border-red-500/50 focus:ring-red-500/30"
+                        : "border-white/10 focus:ring-white/20"
+                    }`}
+                  />
+                </div>
 
-            <div className="space-y-2">
-              <label className="text-gray-400 text-sm font-medium">
-                Your Project
-              </label>
-              <textarea
-                rows={5}
-                placeholder="Tell us about your project"
-                className="w-full bg-[#141414] border border-white/10 rounded-2xl p-4 text-white placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-white/20 transition-all resize-none"
-              />
-            </div>
+                {/* Field: Project Details */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between items-center">
+                    <label className="text-gray-400 text-sm font-medium">
+                      Your Project
+                    </label>
+                    {errors.project && (
+                      <span className="text-red-400 text-xs">
+                        {errors.project}
+                      </span>
+                    )}
+                  </div>
+                  <textarea
+                    rows={4}
+                    name="project"
+                    value={formData.project}
+                    onChange={handleInputChange}
+                    disabled={isSubmitting}
+                    placeholder="Tell us about your project"
+                    className={`w-full bg-[#141414] border rounded-2xl p-4 text-white placeholder:text-gray-600 focus:outline-none focus:ring-1 transition-all resize-none ${
+                      errors.project
+                        ? "border-red-500/50 focus:ring-red-500/30"
+                        : "border-white/10 focus:ring-white/20"
+                    }`}
+                  />
+                </div>
 
-            <motion.div></motion.div>
-            <div className="w-full bg-[#ededed] flex justify-center items-center  text-black font-bold py-4 rounded-xl transition-colors mt-4">
-              <AnimatedText title="Submit" />
-            </div>
-          </form>
+                {/* Submit Action Interface Element */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-[#ededed] h-14 flex justify-center items-center text-black font-bold rounded-xl transition-all hover:bg-white disabled:bg-gray-700 disabled:text-gray-400 cursor-pointer overflow-hidden mt-6 relative"
+                >
+                  {isSubmitting ? (
+                    <div className="flex items-center gap-2">
+                      <svg
+                        className="animate-spin h-5 w-5 text-black"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      <span className="text-sm font-mono tracking-wider uppercase">
+                        Sending...
+                      </span>
+                    </div>
+                  ) : (
+                    <AnimatedText title="Submit" />
+                  )}
+                </button>
+
+                {submitStatus === "error" && (
+                  <p className="text-center text-xs text-red-400 mt-2">
+                    Something went wrong. Please try again later.
+                  </p>
+                )}
+              </motion.form>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>
