@@ -26,7 +26,7 @@ const MoreProjectsSection = ({ projectId }: props) => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.6 }}
             className="text-6xl font-black tracking-tight text-black"
           >
             More Projects
@@ -44,7 +44,6 @@ const MoreProjectsSection = ({ projectId }: props) => {
               transition={{
                 duration: 0.7,
                 delay: index * 0.1,
-                ease: [0.16, 1, 0.3, 1],
               }}
               onClick={() => project.href && router.push(project.href)}
               className="group cursor-pointer flex flex-col w-full"

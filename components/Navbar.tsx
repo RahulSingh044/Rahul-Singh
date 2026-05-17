@@ -7,12 +7,17 @@ import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const menuRef = useRef(null);
-  const itemsRef = useRef([]);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   const router = useRouter();
 
-  const navItems = [
+  interface NavItem {
+    title: string;
+    link?: string;
+  }
+
+  const navItems: NavItem[] = [
     { title: "About Me" },
     { title: "Tools" },
     { title: "Projects", link: "/projects" },
@@ -57,9 +62,9 @@ const Navbar = () => {
     }
   }, [isOpen]);
 
-  const redirect = (item) => {
+  const redirect = (item: NavItem) => {
     if (item.title === "Projects") {
-      router.push(item.link);
+      router.push(item.link || "/");
     } else {
       router.push(`/#${item.title.toLowerCase().replace(" ", "-")}`);
     }
@@ -95,7 +100,11 @@ const Navbar = () => {
         {navItems.map((item, index) => (
           <div
             key={item.title}
-            ref={(el) => (itemsRef.current[index] = el)}
+            ref={(el) => {
+              if (el) {
+                itemsRef.current[index] = el;
+              }
+            }}
             className="opacity-0"
           >
             <div
@@ -113,6 +122,9 @@ const Navbar = () => {
                 maxDelay={0.1}
                 triggerOnce={false}
                 triggerOnHover={true}
+                onShuffleComplete={undefined}
+                colorFrom={undefined}
+                colorTo={undefined}
               />
             </div>
           </div>

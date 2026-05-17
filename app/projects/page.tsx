@@ -46,7 +46,6 @@ const ProjectGridSection = () => {
               transition={{
                 duration: 0.7,
                 delay: index * 0.1,
-                ease: [0.215, 0.61, 0.355, 1.0],
               }}
               onClick={() => project.href && router.push(project.href)}
               className="group cursor-pointer flex flex-col w-full"

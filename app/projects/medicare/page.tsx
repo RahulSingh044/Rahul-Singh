@@ -13,7 +13,8 @@ interface ProjectData {
   mockupImage: string;
 }
 
-const currentProject: ProjectData = {
+const currentProject: ProjectData & { id: string } = {
+  id: "4",
   title: "Medi Care",
   category: "Full-Stack Healthcare",
   liveUrl: "https://github.com/RahulSingh044/HOSPITAL_MANAGMENT_SYSTEM",
@@ -28,9 +29,9 @@ const HospitalManagementDetail = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration: 0.8 },
     },
-  };
+  } as const;
 
   return (
     <section className="w-full min-h-screen text-[#1a1a1a] px-96 select-none pb-20 font-sans">
@@ -43,7 +44,7 @@ const HospitalManagementDetail = () => {
           <motion.h1
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8 }}
             className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-black uppercase"
           >
             {currentProject.title}
@@ -69,7 +70,7 @@ const HospitalManagementDetail = () => {
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1 }}
         className="w-full my-12 bg-[#3b82f6] rounded-[2.5rem] p-6 sm:p-16 flex justify-center items-center"
       >
         <div className="w-full max-w-5xl rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden shadow-[0_40px_80px_-15px_rgba(0,0,0,0.5)] bg-[#0c0c0e] aspect-[16/10] relative group border border-white/5">
@@ -351,7 +352,7 @@ const HospitalManagementDetail = () => {
         </motion.div>
       </div>
 
-      <MoreProjectsSection />
+      <MoreProjectsSection projectId={currentProject.id} />
 
       {/* Structural Ambient Noise Background */}
       <div className="pointer-events-none fixed inset-0 z-50 opacity-[0.04] contrast-150 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />

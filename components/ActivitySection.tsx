@@ -242,7 +242,7 @@ const ProgressRow = ({
         <motion.div
           initial={{ width: 0 }}
           whileInView={{ width: `${percentage}%` }}
-          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.5 }}
           className={`h-full ${color} rounded-full`}
         />
       </div>

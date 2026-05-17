@@ -21,7 +21,7 @@ const HeroSection = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: "easeOut" },
+      transition: { duration: 0.8 },
     },
   };
 
@@ -35,7 +35,6 @@ const HeroSection = () => {
       transition: {
         delay: 1.0, // Adjust this timing if you change text speeds
         duration: 0.8,
-        ease: "easeOut",
       },
     },
   };
@@ -48,7 +47,6 @@ const HeroSection = () => {
       transition: {
         delay: 1.4,
         duration: 0.8,
-        ease: "easeOut",
       },
     },
   };
