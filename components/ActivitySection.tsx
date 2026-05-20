@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { GitHubCalendar } from "react-github-calendar";
+import { GitHubCalendar } from "react-github-calendar"; // Fixed the curly brace import error
 import { motion, AnimatePresence } from "framer-motion";
 
 interface LeetCodeStats {
@@ -20,10 +20,7 @@ const ActivityTracker = ({ githubUser }: { githubUser: string }) => {
   const [lcData, setLcData] = useState<LeetCodeStats | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const [isMounted, setIsMounted] = useState(false);
-
   useEffect(() => {
-    // setIsMounted(true);
     const fetchStats = async () => {
       try {
         const response = await fetch("/api/leetcode");
@@ -42,70 +39,76 @@ const ActivityTracker = ({ githubUser }: { githubUser: string }) => {
     fetchStats();
   }, []);
 
-  // if (!isMounted) {
-  //   return <div className="bg-[#f2f0ea] py-20 min-h-screen" />;
-  // }
-
   return (
-    <section className="bg-[#f2f0ea] pt-16 px-96">
+    // Cleaned up padding constraints to work smoothly from ultra-wides down to small screens
+    <section
+      className="w-full bg-[#f2f0ea] py-16 px-4 sm:px-6 md:px-96"
+      id="activity"
+    >
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-12"
+          className="mb-8 sm:mb-12"
         >
-          <h2 className="text-6xl font-bold tracking-tighter text-[#1a1a1a]">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tighter text-[#1a1a1a]">
             Activity <span className="text-gray-400">/</span>{" "}
             <span className="text-gray-400 font-medium italic">Tracker</span>
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        {/* Responsive Flex Grid System */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
           {/* GitHub Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             whileHover={{ y: -5 }}
-            className="lg:col-span-8 bg-white/80 backdrop-blur-sm p-8 rounded-[2.5rem] border border-black/5 shadow-sm flex flex-col justify-between transition-shadow hover:shadow-xl"
+            className="lg:col-span-8 bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-2xl sm:rounded-[2.5rem] border border-black/5 shadow-sm flex flex-col justify-between transition-shadow hover:shadow-xl overflow-hidden"
           >
             <div>
-              <div className="flex justify-between items-start mb-10">
+              <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-8 sm:mb-10">
                 <div>
-                  <h3 className="text-2xl font-bold text-[#1a1a1a]">
+                  <h3 className="text-xl sm:text-2xl font-bold text-[#1a1a1a]">
                     GitHub Contributions
                   </h3>
                   <p className="text-gray-500 text-sm mt-1">
                     Consistency in code
                   </p>
                 </div>
-                <span className="bg-gray-100 px-4 py-1 rounded-full text-xs font-mono text-gray-600">
+                <span className="bg-gray-100 px-4 py-1 rounded-full text-xs font-mono text-gray-600 self-start sm:self-auto">
                   @{githubUser}
                 </span>
               </div>
 
-              <div className="flex justify-center overflow-x-auto pb-4 custom-scrollbar">
-                <GitHubCalendar
-                  username={githubUser}
-                  blockSize={13}
-                  blockMargin={5}
-                  fontSize={12}
-                  colorScheme="light"
-                  theme={{
-                    light: [
-                      "#e1e1e1",
-                      "#9be9a8",
-                      "#40c463",
-                      "#30a14e",
-                      "#216e39",
-                    ],
-                  }}
-                />
+              {/* Prevent Calendar block sizing crashes on Mobile devices */}
+              <div className="w-full overflow-x-auto pb-4 scrollbar-none touch-pan-x-axis">
+                <div className="min-w-[760px] lg:min-w-0">
+                  <GitHubCalendar
+                    username={githubUser}
+                    blockSize={13}
+                    blockMargin={5}
+                    fontSize={12}
+                    colorScheme="light"
+                    theme={{
+                      light: [
+                        "#e1e1e1",
+                        "#9be9a8",
+                        "#40c463",
+                        "#30a14e",
+                        "#216e39",
+                      ],
+                    }}
+                  />
+                </div>
               </div>
             </div>
 
-            <div className="mt-6 pt-6 border-t border-gray-100 flex justify-between text-xs text-gray-400 font-medium uppercase tracking-widest">
+            <div className="mt-4 pt-6 border-t border-gray-100 flex justify-between text-[10px] sm:text-xs text-gray-400 font-medium uppercase tracking-widest">
               <span>Past 12 Months</span>
               <span>Less — More</span>
             </div>
@@ -115,16 +118,16 @@ const ActivityTracker = ({ githubUser }: { githubUser: string }) => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             whileHover={{ y: -5 }}
             transition={{ delay: 0.1 }}
-            className="lg:col-span-4 bg-[#0d0d0d] p-8 rounded-[2.5rem] shadow-2xl flex flex-col justify-between relative overflow-hidden group"
+            className="lg:col-span-4 bg-[#0d0d0d] p-6 sm:p-8 rounded-2xl sm:rounded-[2.5rem] shadow-2xl flex flex-col justify-between relative overflow-hidden group"
           >
-            {/* Subtle glow effect on hover */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 blur-[80px] group-hover:bg-emerald-500/20 transition-colors" />
 
-            <div className="relative z-10">
-              <div className="flex justify-between items-start mb-8">
-                <h3 className="text-xl font-bold text-white tracking-tight">
+            <div className="relative z-10 w-full">
+              <div className="flex justify-between items-center mb-6 sm:mb-8">
+                <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight">
                   LeetCode Stats
                 </h3>
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -151,18 +154,18 @@ const ActivityTracker = ({ githubUser }: { githubUser: string }) => {
                     key="content"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="space-y-8"
+                    className="space-y-6 sm:space-y-8"
                   >
                     <div className="flex items-baseline gap-2">
-                      <span className="text-5xl font-black text-white">
+                      <span className="text-4xl sm:text-5xl font-black text-white">
                         {lcData.totalSolved}
                       </span>
-                      <span className="text-gray-500 font-medium">
+                      <span className="text-gray-500 font-medium text-sm sm:text-base">
                         / {lcData.totalQuestions}
                       </span>
                     </div>
 
-                    <div className="space-y-5">
+                    <div className="space-y-4 sm:space-y-5">
                       <ProgressRow
                         label="Easy"
                         solved={lcData.easySolved}
@@ -191,20 +194,20 @@ const ActivityTracker = ({ githubUser }: { githubUser: string }) => {
               </AnimatePresence>
             </div>
 
-            <div className="relative z-10 mt-10 pt-6 border-t border-white/5 grid grid-cols-2 gap-4">
+            <div className="relative z-10 mt-8 pt-6 border-t border-white/5 grid grid-cols-2 gap-4">
               <div>
                 <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">
                   Global Ranking
                 </p>
-                <p className="text-white font-mono text-sm">
-                  #{lcData?.ranking.toLocaleString() || "---"}
+                <p className="text-white font-mono text-xs sm:text-sm truncate">
+                  #{lcData?.ranking ? lcData.ranking.toLocaleString() : "---"}
                 </p>
               </div>
               <div className="text-right">
                 <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">
                   Points
                 </p>
-                <p className="text-white font-mono text-sm">
+                <p className="text-white font-mono text-xs sm:text-sm truncate">
                   {lcData?.contributionPoints || "0"}
                 </p>
               </div>
@@ -227,11 +230,11 @@ const ProgressRow = ({
   total: number;
   color: string;
 }) => {
-  const percentage = (solved / total) * 100;
+  const percentage = total > 0 ? (solved / total) * 100 : 0;
 
   return (
     <div className="space-y-2">
-      <div className="flex justify-between text-[11px] font-bold uppercase tracking-wider">
+      <div className="flex justify-between text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">
         <span className="text-gray-400">{label}</span>
         <span className="text-white">
           {solved}
@@ -242,7 +245,8 @@ const ProgressRow = ({
         <motion.div
           initial={{ width: 0 }}
           whileInView={{ width: `${percentage}%` }}
-          transition={{ duration: 1.5 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
           className={`h-full ${color} rounded-full`}
         />
       </div>

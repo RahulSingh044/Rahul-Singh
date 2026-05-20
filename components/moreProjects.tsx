@@ -27,7 +27,7 @@ const MoreProjectsSection = ({ projectId }: props) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-6xl font-black tracking-tight text-black"
+            className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-black"
           >
             More Projects
           </motion.h2>

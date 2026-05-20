@@ -6,7 +6,7 @@ const Testimonials = () => {
   const logos = [1, 2, 3, 4];
 
   return (
-    <div className="relative bg-[#f3f0e9] px-8 md:px-96 overflow-hidden">
+    <div className="relative bg-[#f3f0e9] px-4 sm:px-6 md:px-8 lg:px-96 overflow-hidden pt-16">
       {/* Shared SVG Grain Filter */}
       <svg className="absolute inset-0 w-0 h-0 pointer-events-none">
         <filter id="subtle-grain">
@@ -34,12 +34,12 @@ const Testimonials = () => {
 
       <div className="mx-auto relative z-10">
         {/* Section Heading */}
-        <h2 className="text-6xl md:text-7xl font-bold tracking-tighter text-[#0a0a0a] mb-12">
+        <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-[#0a0a0a] mb-12">
           Testimonials
         </h2>
 
         {/* Testimonial Cards Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
           {logos.map((_, index) => (
             <motion.div
               key={index}

@@ -24,6 +24,28 @@ const Navbar = () => {
     { title: "Contact" },
   ];
 
+  // Global listener tracking external clicks and keyboard tab indexing
+  useEffect(() => {
+    const handleOutsideInteraction = (event: MouseEvent | FocusEvent) => {
+      // If the menu isn't open, we don't need to check anything
+      if (!isOpen) return;
+
+      // If the targeted target element is outside our main wrapper container, fold it away
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    // Listen to mouse clicks and focus tab movements
+    document.addEventListener("mousedown", handleOutsideInteraction);
+    document.addEventListener("focusin", handleOutsideInteraction);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideInteraction);
+      document.removeEventListener("focusin", handleOutsideInteraction);
+    };
+  }, [isOpen]);
+
   useEffect(() => {
     if (isOpen) {
       // 1. Container expansion
@@ -63,6 +85,7 @@ const Navbar = () => {
   }, [isOpen]);
 
   const redirect = (item: NavItem) => {
+    setIsOpen(false); // Clean closure on successful interaction
     if (item.title === "Projects") {
       router.push(item.link || "/");
     } else {
@@ -73,7 +96,7 @@ const Navbar = () => {
   return (
     <div
       ref={menuRef}
-      className="fixed top-6 left-1/2 -translate-x-1/2 w-80 bg-[#0c0c0c] text-white rounded-[2rem] overflow-hidden shadow-2xl z-50 px-6  border border-white/5"
+      className="fixed top-6 left-1/2 -translate-x-1/2 w-full lg:max-w-sm max-w-2xs mx-2 bg-[#0c0c0c] text-white rounded-[2rem] overflow-hidden shadow-2xl z-50 px-6 border border-white/5"
       style={{ height: "56px" }}
     >
       {/* Header */}
@@ -81,7 +104,9 @@ const Navbar = () => {
         <span className="text-xl font-bold tracking-tight ml-2">Rahul</span>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex h-10 w-12 cursor-pointer items-center justify-center bg-white rounded-xl active:scale-90 transition-transform"
+          className="flex h-8 w-10 lg:h-10 lg:w-12 cursor-pointer items-center justify-center bg-white rounded-xl active:scale-90 transition-transform"
+          aria-expanded={isOpen}
+          aria-label="Toggle navigation menu"
         >
           {isOpen ? (
             <span className="text-black text-xl font-bold leading-none">✕</span>
@@ -96,7 +121,7 @@ const Navbar = () => {
       </div>
 
       {/* Menu Items with Shuffle Animation */}
-      <div className="mt-6 flex flex-col items-start space-y-3 pb-6">
+      <div className="flex flex-col items-start py-4 space-y-2 lg:space-y-3 lg:mt-6 lg:pb-6">
         {navItems.map((item, index) => (
           <div
             key={item.title}
@@ -107,9 +132,11 @@ const Navbar = () => {
             }}
             className="opacity-0"
           >
-            <div
+            {/* Added button semantic details and keyboard listener support */}
+            <button
               onClick={() => redirect(item)}
-              className="inline-block bg-[#f8f6f2] cursor-pointer text-black rounded-xl p-2 shadow-sm hover:bg-white transition-colors"
+              onKeyDown={(e) => e.key === "Enter" && redirect(item)}
+              className="inline-block bg-[#f8f6f2] text-left text-black rounded-xl p-2 shadow-sm hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-white/20"
             >
               <Shuffle
                 key={`${item.title}-${isOpen}`}
@@ -126,7 +153,7 @@ const Navbar = () => {
                 colorFrom={undefined}
                 colorTo={undefined}
               />
-            </div>
+            </button>
           </div>
         ))}
       </div>

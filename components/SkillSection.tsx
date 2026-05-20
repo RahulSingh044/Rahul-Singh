@@ -6,10 +6,10 @@ const skillsTop = [
   "Next.js",
   "TypeScript",
   "JavaScript",
-  "Framer Motion",
   "Tailwind CSS",
   "Node.js",
-  "Prisma",
+  "Fastify",
+  "Express",
 ];
 
 const skillsBottom = [
@@ -17,8 +17,9 @@ const skillsBottom = [
   "PostgreSQL",
   "MongoDB",
   "Docker",
+  "Prisma",
   "Git",
-  "GSAP",
+  "Framer Motion",
 ];
 
 const InfiniteMarquee = ({
@@ -29,17 +30,31 @@ const InfiniteMarquee = ({
   direction?: number;
 }) => {
   return (
-    <div className="flex overflow-hidden select-none gap-4 py-4">
+    <div className="flex overflow-hidden select-none py-2 sm:py-4">
+      {/* ✅ Animate the PARENT wrapper, not each track individually */}
       <motion.div
+        className="flex flex-nowrap gap-3 sm:gap-4 w-max"
         initial={{ x: direction > 0 ? 0 : "-50%" }}
         animate={{ x: direction > 0 ? "-50%" : 0 }}
-        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        className="flex flex-nowrap gap-4 min-w-full"
+        transition={{
+          duration: 25,
+          repeat: Infinity,
+          ease: "linear",
+          repeatType: "loop",
+        }}
       >
-        {/* Duplicate items for seamless loop */}
-        {[...items, ...items].map((item, index) => (
-          <SkillPill key={index} text={item} />
-        ))}
+        {/* Track 1 — plain div, no motion */}
+        <div className="flex flex-nowrap gap-3 sm:gap-4 shrink-0">
+          {items.map((item, index) => (
+            <SkillPill key={`track1-${index}`} text={item} />
+          ))}
+        </div>
+        {/* Track 2 — identical twin */}
+        <div className="flex flex-nowrap gap-3 sm:gap-4 shrink-0">
+          {items.map((item, index) => (
+            <SkillPill key={`track2-${index}`} text={item} />
+          ))}
+        </div>
       </motion.div>
     </div>
   );
@@ -48,12 +63,12 @@ const InfiniteMarquee = ({
 const SkillPill = ({ text }: { text: string }) => (
   <motion.div
     whileHover={{
-      scale: 1.1,
+      scale: 1.05,
       backgroundColor: "#000",
       color: "#fff",
       borderColor: "#000",
     }}
-    className="px-8 py-4 border-2 border-black/10 rounded-full text-2xl font-bold tracking-tighter whitespace-nowrap cursor-default transition-colors duration-300 bg-white/50 backdrop-blur-sm"
+    className="px-5 py-2.5 sm:px-8 sm:py-4 border-2 border-black/10 rounded-full text-lg sm:text-2xl font-bold tracking-tighter whitespace-nowrap cursor-default transition-colors duration-300 bg-white/50 backdrop-blur-sm"
   >
     {text}
   </motion.div>
@@ -62,34 +77,35 @@ const SkillPill = ({ text }: { text: string }) => (
 const SkillsPage = () => {
   return (
     <section
-      className="flex flex-col justify-center px-96 py-10 overflow-hidden"
+      className="w-full flex flex-col justify-center px-4 sm:px-6 md:px-96 py-12 sm:py-20 overflow-hidden"
       id="tools"
     >
-      <div className="mb-16">
+      <div className="mb-10 sm:mb-16">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="text-7xl md:text-8xl font-black tracking-tighter text-[#1a1a1a]"
+          viewport={{ once: true }}
+          className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-[#1a1a1a] leading-[1.1]"
         >
-          Tools <span className="text-gray-400">&</span> <br />
-          <span className="italic font-medium text-gray-400">Expertise</span>
+          Tools <span className="text-gray-400">&</span>{" "}
+          <span className="italic font-medium text-gray-400 block sm:inline">
+            Expertise
+          </span>
         </motion.h2>
       </div>
 
-      <div className="relative flex flex-col gap-2">
-        {/* Top Row - Moving Left */}
+      {/* Marquee Tracks */}
+      <div className="relative flex flex-col gap-1 sm:gap-3 w-full">
         <InfiniteMarquee items={skillsTop} direction={1} />
-
-        {/* Bottom Row - Moving Right */}
         <InfiniteMarquee items={skillsBottom} direction={-1} />
 
-        {/* Decorative Overlay Gradient */}
-        <div className="absolute inset-y-0 left-0 w-32 bg-linear-to-r from-[#f2f0ea] to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-32 bg-linear-to-l from-[#f2f0ea] to-transparent z-10 pointer-events-none" />
+        {/* Masking Gradients */}
+        <div className="absolute inset-y-0 left-0 w-12 sm:w-32 bg-gradient-to-r from-[#f2f0ea] to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-12 sm:w-32 bg-gradient-to-l from-[#f2f0ea] to-transparent z-10 pointer-events-none" />
       </div>
 
-      <div className="px-6 md:px-16 mt-20 text-center">
-        <p className="text-xl text-gray-600 font-medium leading-relaxed">
+      <div className="max-w-xl mx-auto px-4 mt-12 sm:mt-20 text-center">
+        <p className="text-lg sm:text-xl text-gray-600 font-medium leading-relaxed">
           I specialize in building high-performance digital products where
           design meets engineering.
         </p>

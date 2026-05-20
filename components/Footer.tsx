@@ -94,9 +94,9 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative w-full bg-[#111111] pt-20 archivo-bold text-white overflow-hidden">
-      {/* 1. SVG Grain Filter Definition */}
-      <svg className="absolute w-0 h-0">
+    <footer className="relative w-full bg-[#111111] pt-20 archivo-bold text-white overflow-hidden md:px-96">
+      {/* SVG Grain Filter Definition */}
+      <svg className="absolute w-0 h-0 pointer-events-none">
         <filter id="grain">
           <feTurbulence
             type="fractalNoise"
@@ -109,9 +109,10 @@ const Footer = () => {
         </filter>
       </svg>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 items-center px-8 md:px-16 relative z-10">
+      {/* Main Grid Content Area */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8 items-start px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Left Section */}
-        <div className="text-5xl md:text-7xl font-extrabold flex flex-col tracking-tighter leading-[0.9]">
+        <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold flex flex-col tracking-tighter leading-[0.9] sm:col-span-2 lg:col-span-1">
           <span>Scaling</span>
           <span>Ideas</span>
           <span>Globally</span>
@@ -119,7 +120,9 @@ const Footer = () => {
 
         {/* Middle Section */}
         <div>
-          <h3 className="text-gray-400 mb-6 text-xl">/Quick links</h3>
+          <h3 className="text-gray-400 mb-4 text-xl font-medium tracking-tight">
+            /Quick links
+          </h3>
           <div className="flex flex-wrap gap-3">
             {quickLinks.map((link) => (
               <AnimatedLink
@@ -133,28 +136,33 @@ const Footer = () => {
 
         {/* Right Section */}
         <div>
-          <h3 className="text-gray-400 mb-6 text-xl">/Contact</h3>
+          <h3 className="text-gray-400 mb-4 text-xl font-medium tracking-tight">
+            /Contact
+          </h3>
           <a
             href="mailto:rahulsingh.dev.36@gmail.com"
-            className="text-lg hover:text-gray-300 transition-colors break-all"
+            className="text-lg hover:text-gray-300 transition-colors break-all underline decoration-white/10 underline-offset-4 hover:decoration-white/30"
           >
             rahulsingh.dev.36@gmail.com
           </a>
         </div>
       </div>
 
-      {/* Bottom Large Name Section */}
-      <motion.h1
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="w-full text-[22vw] max-w-7xl mx-auto font-black text-[#1c1c1c] leading-none text-center uppercase tracking-tighter select-none overflow-hidden"
-        style={{
-          marginBottom: "-5vw",
-        }}
-      >
-        Rahul
-      </motion.h1>
+      {/* Bottom Large Hero Background Text */}
+      <div className="w-full overflow-hidden select-none pointer-events-none mt-12 sm:mt-16">
+        <motion.h1
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-[30vw] md:text-[18vw] font-black text-[#1c1c1c] leading-[0.75] text-center uppercase tracking-tighter"
+          style={{
+            marginBottom: "-1vw",
+          }}
+        >
+          Rahul
+        </motion.h1>
+      </div>
     </footer>
   );
 };

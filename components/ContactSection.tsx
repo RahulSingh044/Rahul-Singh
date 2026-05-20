@@ -176,7 +176,10 @@ const ContactSection = () => {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      if (!data.success) setSubmitStatus("error");
+      if (!data.success) {
+        setSubmitStatus("error");
+        return;
+      }
       setSubmitStatus("success");
       setFormData({ name: "", email: "", project: "" });
     } catch (err) {
@@ -187,7 +190,8 @@ const ContactSection = () => {
   };
 
   return (
-    <div className="relative bg-[#f3f0e9] min-h-screen flex items-center justify-center py-20 px-96 overflow-hidden font-sans">
+    // Replaced fixed large inline padding with full responsive wrapper parameters
+    <div className="relative py-16 sm:py-24 flex items-center justify-center px-4 sm:px-6 md:px-96 overflow-hidden font-sans">
       {/* SVG Grain Filter Definition */}
       <svg className="absolute inset-0 w-0 h-0 pointer-events-none">
         <filter id="bg-grain">
@@ -214,20 +218,20 @@ const ContactSection = () => {
         style={{ filter: "url(#bg-grain)" }}
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start relative z-10 max-w-7xl w-full">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 w-full items-stretch relative z-10">
         {/* Left Side: Text Content & Social Links */}
-        <div className="flex flex-col h-full justify-between">
+        <div className="flex flex-col h-full justify-between lg:py-4">
           <div>
-            <h1 className="text-7xl md:text-8xl font-bold tracking-tighter text-[#0a0a0a] mb-4">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tighter text-[#0a0a0a] mb-4">
               Let’s talk.
             </h1>
-            <p className="text-lg md:text-xl text-gray-700 font-medium max-w-md leading-relaxed">
+            <p className="text-lg sm:text-xl text-gray-700 font-medium max-w-md leading-relaxed">
               Have a project or need help? Fill out the form, and we'll get back
               to you soon.
             </p>
           </div>
 
-          <div className="flex gap-4 mt-12">
+          <div className="flex gap-4 mt-8 lg:mt-0">
             {socials.map((social) => (
               <AnimatedSocialIcon
                 key={social.id}
@@ -239,7 +243,7 @@ const ContactSection = () => {
         </div>
 
         {/* Right Side: Dark Form Panel Widget Wrapper */}
-        <div className="bg-[#0a0a0a] p-8 md:p-10 rounded-[2rem] shadow-2xl w-full border border-white/5 relative min-h-[500px] flex flex-col justify-center">
+        <div className="bg-[#0a0a0a] p-6 sm:p-8 md:p-10 rounded-[2rem] shadow-2xl w-full border border-white/5 relative min-h-[500px] flex flex-col justify-center">
           <AnimatePresence mode="wait">
             {submitStatus === "success" ? (
               <motion.div
@@ -274,7 +278,7 @@ const ContactSection = () => {
                 <button
                   type="button"
                   onClick={() => setSubmitStatus("idle")}
-                  className="text-xs text-gray-500 underline hover:text-white transition-colors pt-4"
+                  className="text-xs text-gray-500 underline hover:text-white transition-colors pt-4 cursor-pointer"
                 >
                   Send another message
                 </button>

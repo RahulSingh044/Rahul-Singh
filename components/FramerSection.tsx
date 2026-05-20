@@ -17,11 +17,11 @@ const GsapScrollSection = ({ text }: { text: string }) => {
       gsap.to(words, {
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top", // Pin starts exactly when section hits the top
-          end: "+=200%", // Stay pinned for 2x the screen height
-          scrub: 1, // Smoothly follow the scroll (1 second lag for smoothness)
-          pin: true, // Lock the section in place
-          pinSpacing: true, // Push the next section down
+          start: "top top",
+          end: "+=200%",
+          scrub: 1,
+          pin: true,
+          pinSpacing: true,
           anticipatePin: 1,
         },
         color: "#000000",
@@ -35,17 +35,19 @@ const GsapScrollSection = ({ text }: { text: string }) => {
   }, []);
 
   return (
-    // sectionRef must be the full-screen container being pinned
     <section
       ref={sectionRef}
-      className="w-full h-screen flex items-center justify-center z-10"
+      className="w-full h-screen flex items-center justify-center z-10 md:px-96"
     >
       <p
         ref={textRef}
-        className="text-[2.5rem] font-medium text-center max-w-200 text-black/15"
+        className="text-2xl md:text-3xl lg:text-[2.5rem] font-medium text-center lg:max-w-200 text-black/15 px-4"
       >
         {text.split(" ").map((word, i) => (
-          <span key={i} className="word tracking-tighter mr-2.5 inline-block">
+          <span
+            key={i}
+            className="word tracking-tighter mr-1 lg:mr-2.5 inline-block font-serif"
+          >
             {word}
           </span>
         ))}

@@ -18,15 +18,33 @@ const ActivitySection = dynamic(() => import("@/components/ActivitySection"), {
 export default function Home() {
   return (
     <>
-      <HeroSection />
-      <AboutSection />
-      <FramerSection />
-      <ExperienceSection />
-      <ProjectSection />
-      <SkillsPage />
-      <ActivitySection githubUser="RahulSingh044" />
-      {/*<Testimonials />*/}
-      <ContactSection />
+      <div className="mb-20">
+        <HeroSection />
+      </div>
+      <div className="mb-20">
+        <AboutSection />
+      </div>
+      <div className="mb-20">
+        <FramerSection />
+      </div>
+      <div className="mb-20">
+        <ExperienceSection />
+      </div>
+      <div className="mb-20">
+        <ProjectSection />
+      </div>
+      <div className="mb-20">
+        <SkillsPage />
+      </div>
+      <div className="mb-20">
+        <ActivitySection githubUser="RahulSingh044" />
+      </div>
+      <div className="mb-20">
+        <Testimonials />
+      </div>
+      <div className="mb-20">
+        <ContactSection />
+      </div>
     </>
   );
 }
