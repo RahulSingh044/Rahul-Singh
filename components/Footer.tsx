@@ -94,7 +94,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative w-full bg-[#111111] pt-20 archivo-bold text-white overflow-hidden md:px-96">
+    <footer className="relative w-full bg-[#111111] pt-20 archivo-bold text-white overflow-hidden">
       {/* SVG Grain Filter Definition */}
       <svg className="absolute w-0 h-0 pointer-events-none">
         <filter id="grain">
@@ -110,7 +110,7 @@ const Footer = () => {
       </svg>
 
       {/* Main Grid Content Area */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8 items-start px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="w-[95%] sm:w-[85%] lg:w-[75%] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8 items-start relative z-10">
         {/* Left Section */}
         <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold flex flex-col tracking-tighter leading-[0.9] sm:col-span-2 lg:col-span-1">
           <span>Scaling</span>

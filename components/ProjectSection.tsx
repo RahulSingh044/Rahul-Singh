@@ -11,7 +11,7 @@ const ProjectSection = () => {
 
   return (
     // Cleaned up padding and set a max-width with automatic centering
-    <div className="w-full mx-auto px-4 sm:px-6 md:px-96 mb-10">
+    <div className="w-[95%] sm:w-[85%] lg:w-[75%] mx-auto mb-10">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
         {/* Left */}
         {/* Removed <br /> to let content flow naturally, adjusted mobile sizing */}

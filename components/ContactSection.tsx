@@ -191,7 +191,7 @@ const ContactSection = () => {
 
   return (
     // Replaced fixed large inline padding with full responsive wrapper parameters
-    <div className="relative py-16 sm:py-24 flex items-center justify-center px-4 sm:px-6 md:px-96 overflow-hidden font-sans">
+    <div className="relative py-16 sm:py-24 flex items-center justify-center overflow-hidden font-sans">
       {/* SVG Grain Filter Definition */}
       <svg className="absolute inset-0 w-0 h-0 pointer-events-none">
         <filter id="bg-grain">
@@ -218,7 +218,7 @@ const ContactSection = () => {
         style={{ filter: "url(#bg-grain)" }}
       />
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 w-full items-stretch relative z-10">
+      <div className="w-[95%] sm:w-[85%] lg:w-[75%] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-stretch relative z-10">
         {/* Left Side: Text Content & Social Links */}
         <div className="flex flex-col h-full justify-between lg:py-4">
           <div>

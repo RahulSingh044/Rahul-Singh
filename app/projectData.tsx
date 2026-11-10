@@ -9,10 +9,10 @@ export interface ProjectItem {
 export const Project: ProjectItem[] = [
   {
     id: "1",
-    title: "Damas",
-    category: "Agency Framer Template",
-    imageSrc: "/damas-preview.jpg",
-    href: "/projects/damas",
+    title: "BrainOS",
+    category: "AI-Powered Personal Memory Operating Layer (PMOL)",
+    imageSrc: "/projects/BrainOS-cover.png",
+    href: "/projects/brain-os",
   },
   {
     id: "2",

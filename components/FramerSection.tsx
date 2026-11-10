@@ -37,7 +37,7 @@ const GsapScrollSection = ({ text }: { text: string }) => {
   return (
     <section
       ref={sectionRef}
-      className="w-full h-screen flex items-center justify-center z-10 md:px-96"
+      className="w-[95%] sm:w-[85%] lg:w-[75%] mx-auto h-screen flex items-center justify-center z-10"
     >
       <p
         ref={textRef}

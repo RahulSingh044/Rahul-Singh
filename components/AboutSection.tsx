@@ -2,7 +2,7 @@ import Image from "next/image";
 const AboutSection = () => {
   return (
     <div
-      className="h-screen w-full px-4 sm:px-6 md:px-8 lg:px-96 py-18 overflow-hidden select-none md:px-96"
+      className="h-screen w-[95%] sm:w-[85%] lg:w-[75%] mx-auto px-4 sm:px-6 md:px-8 py-18 overflow-hidden select-none"
       id="about-me"
     >
       <div className="h-full flex flex-col lg:flex-row items-end justify-between py-4 gap-8">

@@ -77,7 +77,7 @@ const SkillPill = ({ text }: { text: string }) => (
 const SkillsPage = () => {
   return (
     <section
-      className="w-full flex flex-col justify-center px-4 sm:px-6 md:px-96 py-12 sm:py-20 overflow-hidden"
+      className="w-[95%] sm:w-[85%] lg:w-[75%] mx-auto flex flex-col justify-center py-12 sm:py-20 overflow-hidden"
       id="tools"
     >
       <div className="mb-10 sm:mb-16">

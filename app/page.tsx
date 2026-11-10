@@ -39,9 +39,9 @@ export default function Home() {
       <div className="mb-20">
         <ActivitySection githubUser="RahulSingh044" />
       </div>
-      <div className="mb-20">
+      {/* <div className="mb-20">
         <Testimonials />
-      </div>
+      </div> */}
       <div className="mb-20">
         <ContactSection />
       </div>

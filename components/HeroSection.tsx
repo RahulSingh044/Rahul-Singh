@@ -47,14 +47,14 @@ const HeroSection = () => {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col archivo-bold items-center overflow-hidden select-none md:px-96">
+    <div className="h-screen flex flex-col archivo-bold items-center overflow-hidden select-none">
       {/* Main Content Wrapper */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="relative h-full flex flex-col items-center justify-between p-14 pt-68 lg:pt-32 lg:p-0 w-full max-w-7xl px-6"
+        className="relative h-full w-[95%] sm:w-[85%] lg:w-[75%] mx-auto flex flex-col items-center justify-between p-14 pt-68 lg:pt-32 lg:p-0 px-6"
       >
         {/* The Text Block with Relative Badges */}
         <div className="relative flex justify-center items-center my-auto sm:my-0 sm:mt-44 md:mt-24 lg:mt-32 px-6">
@@ -101,14 +101,14 @@ const HeroSection = () => {
               variants={RemainingVariants}
               className="hidden lg:block md:text-6xl font-bolder text-black opacity-80 tracking-[0.15em] uppercase shrink-0 mt-2 sm:mt-0"
             >
-              ©2026
+              ©{new Date().getFullYear()}
             </motion.span>
 
             {/* Center Profile Image Container */}
             <div className="w-full flex flex-col items-center sm:w-auto sm:flex-row sm:gap-6 mx-auto sm:mx-0 sm:grow sm:justify-center">
               <motion.div
                 variants={imageVariants}
-                className="relative w-44 h-52 sm:w-40 sm:h-48 md:w-48 md:h-56 lg:w-52 lg:h-60 overflow-hidden rounded-[2rem] sm:rounded-2xl shadow-xl flex-shrink-0"
+                className="relative w-44 h-52 sm:w-40 sm:h-48 md:w-48 md:h-56 lg:w-52 lg:h-60 overflow-hidden rounded-[2rem] sm:rounded-2xl shadow-xl shrink-0"
               >
                 <Image
                   src="/pfp.jpg"

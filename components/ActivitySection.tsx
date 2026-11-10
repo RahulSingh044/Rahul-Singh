@@ -42,10 +42,10 @@ const ActivityTracker = ({ githubUser }: { githubUser: string }) => {
   return (
     // Cleaned up padding constraints to work smoothly from ultra-wides down to small screens
     <section
-      className="w-full bg-[#f2f0ea] py-16 px-4 sm:px-6 md:px-96"
+      className="w-full bg-[#f2f0ea] py-16"
       id="activity"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="w-[95%] sm:w-[85%] lg:w-[75%] mx-auto">
         {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
